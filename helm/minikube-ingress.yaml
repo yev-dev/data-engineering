@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: minikube-ingress
+  namespace: data-engineering
+  annotations:
+  
+spec:
+  rules:
+  - host: spark-kubernetes
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: spark-master
+          servicePort: 8080
