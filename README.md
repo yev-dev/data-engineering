@@ -127,3 +127,36 @@ local:///opt/spark/examples/jars/spark-examples_2.11-2.3.0.jar
 
 [Deployment of Standalone Spark Cluster on Kubernetes](https://kienmn97.medium.com/deployment-of-standalone-spark-cluster-on-kubernetes-ba15978658bf)
 [Running spark-shell on Kubernetes](https://timothyzhang.medium.com/running-spark-shell-on-kubernetes-3181d4446622)
+
+
+### DB accounts
+
+-- create user pct with encrypted password 'password123';
+
+psql postgres
+
+
+CREATE ROLE pct WITH LOGIN PASSWORD 'password123';
+ALTER ROLE pct CREATEDB;
+
+
+CREATE ROLE market_data WITH LOGIN PASSWORD 'password123';
+ALTER ROLE market_data CREATEDB;
+
+\q
+psql postgres -U market_data
+
+\du => list of all roles
+
+
+ALTER USER market_data set SEARCH_PATH = 'market_data';
+
+ALTER USER pct set SEARCH_PATH = 'pct';
+
+
+-- For the session
+SET search_path TO market_data;
+SET search_path TO pct;
+
+-- To permanently change the schema
+ALTER USER username SET search_path = schema_name;
